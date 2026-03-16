@@ -17,9 +17,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'npm'
 
       - name: Instalar dependencias
         run: npm install
+
+      # Instalar herramienta de assets
+      - name: Instalar @capacitor/assets
+        run: npm install --save-dev @capacitor/assets
+
+      # Generar todos los íconos y splash screens (usando el icono base de resources/)
+      - name: Generar íconos para Android
+        run: npx capacitor-assets generate --android --iconBackground
 
       - name: Sincronizar Capacitor
         run: npx cap sync android
