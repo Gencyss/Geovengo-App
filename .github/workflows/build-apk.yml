@@ -25,8 +25,19 @@ jobs:
       - name: Instalar @capacitor/assets
         run: npm install --save-dev @capacitor/assets
 
+      # Instalar ImageMagick para crear un icono simple
+      - name: Instalar ImageMagick
+        run: sudo apt-get update && sudo apt-get install -y imagemagick
+
+      # Crear un icono base (fondo azul con letra "G" blanca)
+      - name: Crear icono temporal
+        run: |
+          mkdir -p resources
+          convert -size 1024x1024 xc:blue -fill white -gravity center -pointsize 200 -annotate 0 "G" resources/icon.png
+
+      # Generar todos los íconos para Android
       - name: Generar íconos para Android
-        run: npx capacitor-assets generate --android   # <-- CORREGIDO
+        run: npx capacitor-assets generate --android
 
       - name: Sincronizar Capacitor
         run: npx cap sync android
